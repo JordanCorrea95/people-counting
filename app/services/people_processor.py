@@ -231,12 +231,10 @@ class VideoProcessor:
                 padding=2
             )
 
-            # Dibujar punto visual (3/4 del bbox hacia arriba)
+            # Dibujar punto visual (punto central del lower bbox)
             if is_inside:
-                cv2.circle(annotated, detection.visible_point, 6, (0, 255, 0), 2)
-                cv2.circle(annotated, detection.visible_point, 3, (255, 255, 255), -1)
-            else:
-                cv2.circle(annotated, detection.visible_point, 4, color, -1)
+                cv2.circle(annotated, detection.bottom_point, 3, (255, 255, 255), -1)
+                cv2.circle(annotated, detection.bottom_point, 6, (0, 255, 0), 2)
 
         # Dibujar estadísticas en el frame
         self._draw_statistics(annotated)

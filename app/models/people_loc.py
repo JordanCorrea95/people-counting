@@ -23,20 +23,12 @@ class peopleDetection:
     confidence: float
     bbox: Tuple[int, int, int, int]  # x1, y1, x2, y2
     mask: Optional[List] = None  # Puntos de segmentación
-    centroid: Tuple[int, int] = field(default=(0, 0))
-    visible_point: Tuple[int, int] = field(default=(0, 0))
     bottom_point: Tuple[int, int] = field(default=(0, 0))
 
     def __post_init__(self):
         """Calcula puntos derivados del bounding box si no se proporcionan."""
         if self.bbox:
             x1, y1, x2, y2 = self.bbox
-            height = max(1, y2 - y1)
-            if self.centroid == (0, 0):
-                self.centroid = ((x1 + x2) // 2, (y1 + y2) // 2)
-            if self.visible_point == (0, 0):
-                # Punto visual a 3/4 de altura desde la base del bbox (más alto que el centro).
-                self.visible_point = ((x1 + x2) // 2, y2 - int(0.75 * height))
             if self.bottom_point == (0, 0):
                 self.bottom_point = ((x1 + x2) // 2, y2)
 

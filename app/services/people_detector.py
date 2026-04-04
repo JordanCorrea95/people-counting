@@ -178,6 +178,9 @@ class peopleDetector:
         for track_id, track in self.tracks.items():
             if not track.positions:
                 continue
+            # Evita contar tracks "fantasma" cuando no hubo deteccion en el frame actual.
+            if track.frames_since_last_detection != 0:
+                continue
             current_pos = track.positions[-1]
             if self._is_inside_region(current_pos, region):
                 inside_track_ids.add(track_id)
