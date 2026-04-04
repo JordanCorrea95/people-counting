@@ -4,7 +4,7 @@ Utilidades para procesamiento de video.
 import cv2
 import numpy as np
 from pathlib import Path
-from typing import Tuple, Optional
+from typing import Tuple
 
 
 def get_video_info(video_path: Path) -> dict:

@@ -34,6 +34,7 @@ class VideoProcessor:
         self,
         input_path: Path,
         output_path: Path,
+        model_path: Path = None,
         region_config: Optional[dict] = None,
         progress_callback: Optional[Callable[[int, int], None]] = None
     ) -> dict:
@@ -43,6 +44,7 @@ class VideoProcessor:
         Args:
             input_path: Ruta del video de entrada
             output_path: Ruta del video de salida
+            model_path: Ruta del modelo YOLO a usar
             region_config: Configuración de región de conteo (usa default si es None)
             progress_callback: Función de callback para reportar progreso
 
@@ -54,6 +56,12 @@ class VideoProcessor:
         # Validar que existe el video
         if not input_path.exists():
             raise FileNotFoundError(f"Video no encontrado: {input_path}")
+
+        # Validar que exista el modelo
+        model_path = model_path or settings.YOLO_MODEL_PATH
+        if not model_path.exists():
+            raise FileNotFoundError(f"Modelo no encontrado: {model_path}")
+        logger.info(f"Modelo cargado: {model_path}")
 
         # Usar configuración por defecto si no se proporciona
         region_config = region_config or settings.COUNT_REGION
@@ -162,16 +170,16 @@ class VideoProcessor:
         # Dibujar región poligonal de conteo
         polygon = np.array(region_config["vertices"], dtype=np.int32)
         cv2.polylines(annotated, [polygon], isClosed=True, color=(255, 0, 255), thickness=2)
-        label_x = int(polygon[:, 0].min()) + 5
-        label_y = max(20, int(polygon[:, 1].min()) - 10)
+        label_x = int(polygon[:, 0].min()) + 2
+        label_y = max(20, int(polygon[:, 1].max()) + 12)
         draw_text_with_background(
             annotated,
-            region_config.get("name", "REGION CONTEO"),
+            region_config.get("name", "REGION"),
             (label_x, label_y),
             font_scale=0.45,
             thickness=1,
             text_color=(255, 255, 255),
-            bg_color=(0, 255, 255),
+            bg_color=(255, 0, 255),
             padding=3
         )
 
