@@ -188,17 +188,6 @@ class VideoProcessor:
             is_inside = detection.track_id in inside_track_ids
             color = (0, 200, 0) if is_inside else settings.COLORS.get(detection.class_name, (0, 255, 255))
 
-            # Dibujar máscara de segmentación si existe
-            if detection.mask and len(detection.mask) > 0:
-                mask_overlay = annotated.copy()
-                points = np.array(detection.mask, dtype=np.int32)
-                cv2.fillPoly(mask_overlay, [points], color)
-                # Aplicar overlay con transparencia
-                cv2.addWeighted(mask_overlay, 0.3, annotated, 0.7, 0, annotated)
-
-                # Dibujar contorno de la máscara
-                cv2.polylines(annotated, [points], True, color, thickness=1)
-
             # Dibujar bounding box
             x1, y1, x2, y2 = detection.bbox
             cv2.rectangle(annotated, (x1, y1), (x2, y2), color, thickness=1)

@@ -90,9 +90,8 @@ class peopleDetector:
         if results and len(results) > 0:
             result = results[0]
 
-            # Obtener boxes, máscaras y IDs de tracking
+            # Obtener boxes y IDs de tracking
             boxes = result.boxes
-            masks = result.masks if hasattr(result, 'masks') and result.masks is not None else None
 
             if boxes is not None and len(boxes) > 0:
                 for i, box in enumerate(boxes):
@@ -106,20 +105,13 @@ class peopleDetector:
                     # Obtener nombre de clase
                     class_name = settings.CLASSES.get(cls, "unknown")
 
-                    # Extraer máscara si está disponible
-                    mask_points = None
-                    if masks is not None and i < len(masks):
-                        mask = masks[i].xy[0]  # Puntos del contorno de la máscara
-                        if len(mask) > 0:
-                            mask_points = mask.astype(int).tolist()
-
                     # Crear detección
                     detection = peopleDetection(
                         track_id=track_id,
                         class_name=class_name,
                         confidence=conf,
                         bbox=(x1, y1, x2, y2),
-                        mask=mask_points
+                        mask=None
                     )
 
                     detections.append(detection)

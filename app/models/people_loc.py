@@ -22,7 +22,7 @@ class peopleDetection:
     class_name: str
     confidence: float
     bbox: Tuple[int, int, int, int]  # x1, y1, x2, y2
-    mask: Optional[List] = None  # Puntos de segmentación
+    mask: Optional[List] = None  # Se mantiene por compatibilidad, pero ya no se usa
     bottom_point: Tuple[int, int] = field(default=(0, 0))
 
     def __post_init__(self):
