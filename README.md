@@ -34,7 +34,7 @@ pip install -r requirements.txt
 
 ```bash
 mkdir -p models
-curl -L -o models/yolo26m-seg.pt "https://github.com/ultralytics/assets/releases/download/v8.4.0/yolo26m-seg.pt"
+curl -L -o models/yolo26m-seg.pt "https://github.com/ultralytics/assets/releases/download/v8.4.0/yolo26m.pt"
 ```
 
 La aplicacion valida que el archivo del modelo:
