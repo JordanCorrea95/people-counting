@@ -4,11 +4,11 @@ API y pipeline de video para detectar, segmentar y contar (inventario) personas 
 
 ## Caracteristicas
 
-- Deteccion y segmentacion de personas (clase COCO `person`) con YOLO-seg via Ultralytics.
+- Deteccion y segmentacion de personas (clase COCO `person`) con YOLO26 via Ultralytics.
 - Tracking por `track_id` usando `model.track(..., persist=True)`.
 - Conteo tipo inventario: cuenta cuantas personas estan dentro de la region en cada frame.
 - Region de conteo configurable como poligono de 4 vertices en `app/config/settings.py`.
-- Video de salida anotado: region (poligono), bbox, mascara (si existe), ID y estadisticas.
+- Video de salida anotado: region (poligono), bbox, ID y estadisticas.
 
 ## Requisitos
 
@@ -68,7 +68,7 @@ COUNT_REGION = {
 ## Como funciona el conteo
 
 - El conteo se decide con el punto inferior del bounding box (`bottom_point`), no con el centro.
-- El punto mostrado en pantalla (`visible_point`) esta a 3/4 de altura del bbox (solo visual).
+- El punto mostrado en pantalla (`visible_point`) es el punto de conteo.
 - Se considera "dentro" si el punto de conteo cae dentro del poligono (`pointPolygonTest`).
 
 ## Ejecutar la API
